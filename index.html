@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<title>js bridge</title>
+	<style type="text/css">
+		button {
+			width: 140px;
+			line-height: 24px;
+			border: solid 1px #999;
+			border-radius: 3px;
+			text-align: center;
+			font-size: 13px;
+			margin: 6px;
+		}
+	</style>
+</head>
+
+<body>
+</body>
+<script>
+
+/**
+*	api 相关请查看 http://wiki.58corp.com/index.php?title=%E5%BE%AE%E4%BF%A1%E5%BE%AE%E7%AB%99%E6%8A%80%E6%9C%AF%E9%83%A8_HyBrid%E5%8D%8F%E8%AE%AE
+*/
+var config = [
+	{
+		title: '分享webpage', api: function(){
+			WubawyxApp.share.webpage('shareTo', 'title', 'desc', 'url', 'icon', 'panelTitle', function(data){
+				console.log('分享webpage回调：', data)
+			})
+		}
+	},
+	{
+		title: '分享图片', api: function(){
+			WubawyxApp.share.image('shareTo', 'title', 'desc', 'panelTitle', 'filePath', function(data){
+				console.log('分享图片回调：', data)
+			})
+		}
+	},
+	// device
+	{
+		title: '定位', api: function(){
+			WubawyxApp.device.location(function(data){
+				console.log('定位回调：', data)
+			})
+		}
+	},
+	// app
+	{
+		title: '浏览器截屏', api: function(){
+			WubawyxApp.app.browserscreen(function(data){
+				console.log('浏览器截屏：', data)
+			})
+		}
+	},
+	{
+		title: '手机截屏', api: function(){
+			WubawyxApp.app.phonescreen(function(data){
+				console.log('手机截屏：', data)
+			})
+		}
+	},
+	{
+		title: '是否安装某app', api: function(){
+			WubawyxApp.app.isinstallapp('pkgName', function(data){
+				console.log('是否安装某app：', data)
+			})
+		}
+	},
+	// ui
+	{
+		title: 'Native的Toast', api: function(){
+			WubawyxApp.ui.toast('content', function(data){
+				console.log('toast：', data)
+			})
+		}
+	},
+	{
+		title: 'Native的输入框', api: function(){
+			WubawyxApp.ui.showinput('title', 'label', 'okText', 'cancelText', function(data){
+				console.log('showinput：', data)
+			})
+		}
+	},
+	{
+		title: '设置标题', api: function(){
+			WubawyxApp.ui.settitle('title changge')
+		}
+	},
+	{
+		title: '展示分享按钮', api: function(){
+			WubawyxApp.ui.showshare()
+		}
+	},
+	// jump
+	{
+		title: '关闭当前界面', api: function(){
+			WubawyxApp.jump.close(function(data){
+				console.log('close：', data)
+			})
+		}
+	},
+	{
+		title: '跳转到native界面', api: function(){
+			WubawyxApp.jump.native('name', 'flag', 'close', function(data){
+				console.log('native：', data)
+			})
+		}
+	},
+	{
+		title: '跳转到web界面', api: function(){
+			WubawyxApp.jump.web('url','title', 'showShare', 'shareTitle', 'shareUrl', 'shareIcon', 'shareDesc', 'needResult', function(data){
+				console.log('web：', data)
+			})
+		}
+	},
+	{
+		title: '设置要返回的值', api: function(){
+			WubawyxApp.jump.setviewresult('resultData', function(data){
+				console.log('setviewresult: ', data)
+			})
+		}
+	}
+
+]
+
+
+var _btns = []
+config.forEach(function(_conf){
+	_btns.push('<button>'+ _conf.title +'</button>')
+})
+document.body.insertAdjacentHTML("beforeend", _btns.join(''));
+
+Array.prototype.slice.call(document.querySelectorAll('button')).forEach(function(btn, i){
+	btn.addEventListener('click', config[i].api)
+})
+</script>
+
+<script src="http://j1.58cdn.com.cn/weixin/js/lib/console.js"></script>
+
+</html>
+
+</html>
